@@ -1,7 +1,7 @@
 # Sabas0ba Pages Design v1 (draft)
 
 `sabas0ba/sabas0ba` の portfolio 表現と `sabas0ba/dotfiles` の document UI を共通語彙へ統合する。
-この文書と `saba.css` は checkpoint 1 の draft であり、既存 Pages への適用前に API を固定する。
+この文書と `src/saba.css` は checkpoint 1 の draft であり、既存 Pages への適用前に API を固定する。
 
 ## 目的
 
@@ -107,7 +107,7 @@ Site 固有 class は `@layer site` で定義し、共通 component より後に
 
 Theme selector の保存方法や toggle UI は site 側の責務とし、CSS に JavaScript dependency を持たせない。
 
-checkpoint sample では `theme.js` を site 側 helper の例として使用する。`auto` は `data-theme` を削除して OS 設定へ追従し、`light` / `dark` は利用者の選択を local storage に保存する。JavaScript が無効または storage が利用できない場合も CSS の `prefers-color-scheme` だけで成立させる。`theme.js` は `saba.css` の public component API には含めない。
+checkpoint sample では `examples/assets/theme.js` を site 側 helper の例として使用する。`auto` は `data-theme` を削除して OS 設定へ追従し、`light` / `dark` は利用者の選択を local storage に保存する。JavaScript が無効または storage が利用できない場合も CSS の `prefers-color-scheme` だけで成立させる。この helper は `src/saba.css` の public component API には含めない。
 
 ## Accessibility
 
