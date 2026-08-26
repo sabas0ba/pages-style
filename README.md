@@ -27,6 +27,8 @@ LICENSE                 Apache License 2.0
 
 公開sampleは <https://sabas0ba.github.io/pages-style/> です。ローカルでは [examples/index.html](examples/index.html) を開き、次の組み合わせを確認します。詳細は [examples/README.md](examples/README.md) を参照してください。
 
+初回deployment前にrepositoryの **Settings → Pages → Source** を **GitHub Actions** に設定します。公開範囲はrepository visibilityとGitHub planのPages設定に従います。
+
 - Portfolio / Documentation / Application
 - auto / light / dark
 - desktop / mobile
