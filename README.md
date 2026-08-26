@@ -45,7 +45,7 @@ $ make check
 $ make check DOTFILES_REPO=/path/to/dotfiles
 ```
 
-`make check` は dotfiles の environment check を先に実行し、その後 `tests/check-static.sh` を実行します。npm、pip、web font、external theme dependency は使用しません。
+`make check` は dotfiles の environment check を先に実行し、その後 shellcheck、shfmt、`tests/check-static.sh` を実行します。環境検査と test を切り分ける場合は、dotfiles の Nix shell 内で `make test` を使用します。npm、pip、web font、external theme dependency は使用しません。
 
 ## Scope
 
