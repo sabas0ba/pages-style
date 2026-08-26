@@ -1,0 +1,40 @@
+# 開発環境は sabas0ba/dotfiles の固定 revision から構築し、runtime は network none で検査する。
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        # actions/checkout v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Checkout dotfiles environment
+        # actions/checkout v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: sabas0ba/dotfiles
+          ref: fc4cdecc02a6a95c81a259549d3fb9e7df18bb8f
+          path: .work/dotfiles
+
+      - name: Build dotfiles environment
+        run: docker build -t dotfiles-dev .work/dotfiles
+
+      - name: Test without runtime network
+        run: >-
+          docker run --rm --network none
+          -v "$PWD:/workspace"
+          dotfiles-dev
+          make check DOTFILES_REPO=/workspace/.work/dotfiles
