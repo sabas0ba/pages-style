@@ -2,6 +2,10 @@
 
 `examples/` は `src/saba.css` の public API を検証するための静的ページです。配布物には含めません。`assets/theme.js` も sample 側の実装例であり、CSS API の一部ではありません。
 
+公開URL: <https://sabas0ba.github.io/pages-style/>
+
+Source repository: <https://github.com/sabas0ba/pages-style>
+
 ## Profiles
 
 | Page | Purpose | Main review points |
@@ -21,4 +25,4 @@
 5. JavaScript 無効時の OS theme fallback
 6. mobile で horizontal overflow がないこと
 
-`index.html` から各ページへ移動できます。外部 asset、web font、build step は不要です。
+`index.html` から各ページへ移動できます。公開artifactは`make pages`で生成します。ブラウザruntimeでは外部asset、web font、library、CDNを使用しません。

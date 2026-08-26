@@ -31,9 +31,10 @@ Accent hue は既定 250。portfolio のランダム hue は site-local な演�
 
 ### Typography
 
-- Document body: system sans-serif
-- Navigation / metadata / UI labels: monospace
-- Heading: monospace
+- Document body: system sans-serif。日本語glyphは読みやすさを優先し、`BIZ UDPGothic`、`Hiragino Sans`、`Yu Gothic UI`、`Noto Sans CJK JP`の順で利用可能なfontへfallbackする
+- Navigation / metadata / UI labels: monospace。日本語glyphは`BIZ UDGothic`または`Noto Sans Mono CJK JP`へfallbackする
+- Documentation heading: bodyと同じ日本語sans-serif stack
+- Portfolio / Application heading: monospaceを使用可能
 - Code: monospace
 - Portfolio は site-local override により body も monospace にできる
 
@@ -132,3 +133,18 @@ docs/assets/vendor/saba.css
 ```
 
 vendor file には source repository と commit SHA をコメントで記録する。
+
+## Runtime dependency
+
+公開artifactはrepository内のCSS、HTML、JavaScriptだけで完結させる。次を使用しない。
+
+- CDNまたは外部hostのstylesheet / script / font
+- CSS `@import`
+- JavaScript packageまたはmodule import
+- npm / pip等によるbuild dependency
+
+CIとdeploymentに使用するGitHub Actionsおよび`dotfiles`はruntime dependencyに含めず、commit SHAで一意に固定する。
+
+## License
+
+Apache License 2.0を適用する。配布する`src/saba.css`にはSPDX identifierとcopyright noticeを付与する。

@@ -1,3 +1,6 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* Copyright 2026 sabas0ba */
+
 @layer saba.tokens, saba.reset, saba.base, saba.components, saba.layout, site;
 
 @layer saba.tokens {
@@ -23,10 +26,12 @@
     --saba-code-number: #0550ae;
     --saba-code-function: #8250df;
 
-    --saba-font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans",
-      "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic UI", Meiryo, sans-serif;
+    --saba-font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", "BIZ UDPGothic",
+      "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic",
+      "Noto Sans CJK JP", "Noto Sans JP", Meiryo, sans-serif;
     --saba-font-mono: ui-monospace, "Cascadia Mono", "SFMono-Regular", Consolas,
-      "Liberation Mono", "Noto Sans Mono", monospace;
+      "Liberation Mono", "BIZ UDGothic", "Noto Sans Mono CJK JP", "Noto Sans Mono",
+      monospace;
 
     --saba-radius-sm: 0.25rem;
     --saba-radius-md: 0.6rem;
@@ -235,7 +240,7 @@
 @layer saba.layout {
   .saba-page { width: min(calc(100% - 2.5rem), var(--saba-page-width)); margin-inline: auto; }
   .saba-prose { width: min(100%, var(--saba-measure)); line-height: 1.85; }
-  .saba-prose h1, .saba-prose h2, .saba-prose h3 { color: var(--saba-text); font-family: var(--saba-font-mono); line-height: 1.4; }
+  .saba-prose h1, .saba-prose h2, .saba-prose h3 { color: var(--saba-text); font-family: var(--saba-font-body); line-height: 1.4; }
   .saba-prose h1 { margin: 0 0 1.5rem; font-size: clamp(1.65rem, 4vw, 2rem); }
   .saba-prose h2 { margin: 2.75rem 0 1rem; padding-top: 1.5rem; border-top: 1px solid var(--saba-border); font-size: 1.3rem; }
   .saba-prose h3 { margin: 2rem 0 .75rem; font-size: 1.05rem; }

@@ -14,21 +14,38 @@ examples/               design review 専用の静的 sample
   docs.html             Documentation
   app.html              Application / Tool
 tests/                  自動検査
+scripts/                Pages artifact 生成
+.github/workflows/      CI と Pages deployment
 docs/                   active design document
   handoff/              初期 handoff の履歴資料
+LICENSE                 Apache License 2.0
 ```
 
 `examples/` は利用側の実装例であり、配布対象ではありません。public implementation は [src/saba.css](src/saba.css) だけです。
 
 ## Design review
 
-ブラウザで [examples/index.html](examples/index.html) を開き、次の組み合わせを確認します。詳細は [examples/README.md](examples/README.md) を参照してください。
+公開sampleは <https://sabas0ba.github.io/pages-style/> です。ローカルでは [examples/index.html](examples/index.html) を開き、次の組み合わせを確認します。詳細は [examples/README.md](examples/README.md) を参照してください。
 
 - Portfolio / Documentation / Application
 - auto / light / dark
 - desktop / mobile
 - keyboard focus / skip link
 - reduced motion / no-JavaScript fallback
+
+## Usage
+
+`src/saba.css` を利用側repositoryへvendorし、取得元のcommit SHAを記録します。latest URLをruntimeから直接参照しません。
+
+```html
+<link rel="stylesheet" href="assets/vendor/saba.css">
+
+<main class="saba-page">
+  <article class="saba-card">...</article>
+</main>
+```
+
+tokens、components、page profilesは [docs/design.md](docs/design.md) を参照してください。
 
 ## Development environment
 
@@ -45,7 +62,21 @@ $ make check
 $ make check DOTFILES_REPO=/path/to/dotfiles
 ```
 
-`make check` は dotfiles の environment check を先に実行し、その後 shellcheck、shfmt、`tests/check-static.sh` を実行します。環境検査と test を切り分ける場合は、dotfiles の Nix shell 内で `make test` を使用します。npm、pip、web font、external theme dependency は使用しません。
+`make check` は dotfiles の environment check を先に実行し、その後 shellcheck、shfmt、静的sample、Pages artifact、workflow pinを検査します。環境検査とtestを切り分ける場合は、dotfilesのNix shell内で`make test`を使用します。
+
+```console
+$ make pages  # .work/pages に公開用artifactを生成
+```
+
+CIもcommit SHAで固定した`dotfiles`からcontainer imageを構築し、runtime networkを無効化して`make check`を実行します。
+
+## Dependencies
+
+公開するCSS、HTML、JavaScriptには外部runtime dependencyがありません。npm、pip、CDN、web font、external theme、JavaScript library、CSS `@import`を使用せず、検査で再混入を拒否します。GitHub ActionsとCI用dotfilesはbuild-time dependencyとしてcommit SHAで固定しています。
+
+## License
+
+Apache License 2.0です。詳細は [LICENSE](LICENSE) を参照してください。
 
 ## Scope
 

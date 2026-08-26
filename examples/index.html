@@ -15,6 +15,7 @@
         .links a { display: block; padding: 1rem; margin: .75rem 0; }
         .links strong { display: block; margin-bottom: .25rem; color: var(--saba-text); font-family: var(--saba-font-mono); }
         .links span { color: var(--saba-text-muted); font-size: .88rem; }
+        .usage { margin-top: 3rem; }
       }
     </style>
   </head>
@@ -22,7 +23,7 @@
     <a class="saba-skip-link" href="#main">本文へ移動</a>
     <header class="saba-site-header">
       <div class="saba-site-header__inner">
-        <span class="saba-brand"><span class="saba-brand__owner">sabas0ba / </span>pages design</span>
+        <a class="saba-brand" href="https://github.com/sabas0ba/pages-style"><span class="saba-brand__owner">sabas0ba / </span>pages design</a>
         <div class="saba-theme-switcher" data-saba-theme-switcher hidden role="group" aria-label="表示テーマ">
           <button type="button" data-theme-value="auto" aria-pressed="false">auto</button>
           <button type="button" data-theme-value="light" aria-pressed="false">light</button>
@@ -47,6 +48,19 @@
           <span>panel / form control / workspace を使う Web アプリ向け表現</span>
         </a>
       </nav>
+      <section class="saba-prose usage" aria-labelledby="usage-title">
+        <h2 id="usage-title">CSS の使い方</h2>
+        <p><a href="https://github.com/sabas0ba/pages-style/blob/main/src/saba.css">src/saba.css</a> を利用側repositoryへvendorし、取得元commit SHAを記録します。latest URLへのruntime依存は使用しません。</p>
+        <pre><code>&lt;link rel="stylesheet" href="assets/vendor/saba.css"&gt;
+
+&lt;main class="saba-page"&gt;
+  &lt;article class="saba-card"&gt;...&lt;/article&gt;
+&lt;/main&gt;</code></pre>
+        <p>利用可能なtokens、components、page profilesは<a href="https://github.com/sabas0ba/pages-style/blob/main/docs/design.md">design document</a>を参照してください。</p>
+      </section>
     </main>
+    <footer class="saba-site-footer">
+      <div class="saba-site-footer__inner"><span>Apache-2.0</span><span><a href="https://github.com/sabas0ba/pages-style">repository</a></span></div>
+    </footer>
   </body>
 </html>
