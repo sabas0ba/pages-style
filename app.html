@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>App sample</title>
+    <script src="theme.js"></script>
+    <link rel="stylesheet" href="saba.css">
+    <style>
+      @layer site {
+        :root { --app-terminal-bg: #f6f8fa; --app-terminal-text: #24292f; }
+        :root[data-theme="dark"] { --app-terminal-bg: #080b0f; --app-terminal-text: #b8c3cf; }
+        @media (prefers-color-scheme: dark) {
+          :root:not([data-theme="light"]) { --app-terminal-bg: #080b0f; --app-terminal-text: #b8c3cf; }
+        }
+        body { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        .app { display: grid; flex: 1; min-height: 0; grid-template-columns: 15rem minmax(0, 1fr); }
+        .sidebar { padding: 1rem; border-right: 1px solid var(--saba-border); background: var(--saba-surface); }
+        .side-title { margin: .3rem 0 1rem; color: var(--saba-text-muted); font: 700 .72rem/1 var(--saba-font-mono); letter-spacing: .12em; text-transform: uppercase; }
+        .side-item { display: block; padding: .5rem .6rem; border-radius: var(--saba-radius-sm); color: var(--saba-text-muted); font: .85rem/1.3 var(--saba-font-mono); }
+        .side-item:hover { color: var(--saba-text); text-decoration: none; }
+        .side-item[aria-current="page"] { background: var(--saba-accent-soft); color: var(--saba-text); }
+        .workspace { padding: 1.4rem; overflow: auto; }
+        .toolbar { display: flex; flex-wrap: wrap; gap: .7rem; align-items: end; margin-bottom: 1rem; }
+        .repo-field { display: grid; flex: 1 1 16rem; max-width: 24rem; gap: .25rem; color: var(--saba-text-muted); font: .75rem/1.3 var(--saba-font-mono); }
+        .panel-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 1rem; }
+        .panel { min-height: 18rem; padding: 1rem; }
+        .panel h2 { margin: 0 0 1rem; font: 650 .9rem/1.3 var(--saba-font-mono); }
+        .terminal { height: 13rem; margin: 0; overflow: auto; padding: 1rem; border: 1px solid var(--saba-border); border-radius: var(--saba-radius-md); background: var(--app-terminal-bg); color: var(--app-terminal-text); font: .8rem/1.7 var(--saba-font-mono); white-space: pre-wrap; }
+        .metric { margin: 1rem 0 .3rem; font: 650 2.2rem/1 var(--saba-font-mono); }
+        .muted { color: var(--saba-text-muted); font-size: .84rem; }
+        @media (max-width: 52rem) {
+          body { height: auto; overflow: auto; }
+          .app { grid-template-columns: 1fr; }
+          .sidebar { display: flex; gap: .4rem; overflow: auto; border-right: 0; border-bottom: 1px solid var(--saba-border); }
+          .side-title { display: none; }
+          .side-item { white-space: nowrap; }
+          .panel-grid { grid-template-columns: 1fr; }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="saba-skip-link" href="#main">本文へ移動</a>
+    <header class="saba-site-header">
+      <div class="saba-site-header__inner">
+        <a class="saba-brand" href="index.html"><span class="saba-brand__owner">sabas0ba / </span>tool</a>
+        <nav class="saba-nav" aria-label="主要ナビゲーション"><a href="#main">docs</a><a href="#main">source</a></nav>
+        <div class="saba-theme-switcher" data-saba-theme-switcher hidden role="group" aria-label="表示テーマ">
+          <button type="button" data-theme-value="auto" aria-pressed="false">auto</button>
+          <button type="button" data-theme-value="light" aria-pressed="false">light</button>
+          <button type="button" data-theme-value="dark" aria-pressed="false">dark</button>
+        </div>
+      </div>
+    </header>
+    <main id="main" class="app">
+      <nav class="sidebar" aria-label="Workspace">
+        <div class="side-title">workspace</div>
+        <a class="side-item" aria-current="page" href="#overview">Overview</a>
+        <a class="side-item" href="#build">Build</a>
+        <a class="side-item" href="#artifacts">Artifacts</a>
+        <a class="side-item" href="#overview">Settings</a>
+      </nav>
+      <section id="overview" class="workspace" aria-label="Overview">
+        <div class="toolbar">
+          <label class="repo-field">Repository<input class="saba-input" value="sabas0ba/project"></label>
+          <button class="saba-button saba-button--primary" type="button">Run</button>
+          <button class="saba-button" type="button">Reset</button>
+        </div>
+        <div class="panel-grid">
+          <section id="build" class="saba-panel panel">
+            <h2>Build output</h2>
+            <pre class="terminal" aria-label="Build output"><code>$ make check
+lint ............. ok
+test ............. ok
+reproducibility .. ok
+
+3 checks passed</code></pre>
+          </section>
+          <section id="artifacts" class="saba-panel panel">
+            <h2>Status</h2>
+            <div class="metric"><span aria-hidden="true">✓</span> PASS</div>
+            <p class="muted">All required checks completed successfully.</p>
+            <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid var(--saba-border);">
+            <span class="saba-chip">main</span> <span class="saba-chip">clean</span>
+          </section>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
