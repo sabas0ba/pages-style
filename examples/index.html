@@ -10,6 +10,7 @@
       @layer site {
         body { display: flex; flex-direction: column; }
         .wrap { padding-block: 4rem; }
+        .title { margin: 0; font-family: var(--saba-font-mono); }
         .lead { max-width: 44rem; color: var(--saba-text-muted); }
         .links { margin-top: 2rem; }
         .links a { display: block; padding: 1rem; margin: .75rem 0; }
@@ -32,7 +33,7 @@
       </div>
     </header>
     <main id="main" class="saba-page wrap">
-      <h1 style="font-family: var(--saba-font-mono); margin: 0;">Checkpoint 1</h1>
+      <h1 class="title">Checkpoint 1</h1>
       <p class="lead">Portfolio / Documentation / Application の 3 用途を同じ design token と component API で表現する静的サンプルです。</p>
       <nav class="links" aria-label="サンプル一覧">
         <a class="saba-card saba-card__body" href="portfolio.html">

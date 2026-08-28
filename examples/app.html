@@ -29,6 +29,7 @@
         .terminal { height: 13rem; margin: 0; overflow: auto; padding: 1rem; border: 1px solid var(--saba-border); border-radius: var(--saba-radius-md); background: var(--app-terminal-bg); color: var(--app-terminal-text); font: .8rem/1.7 var(--saba-font-mono); white-space: pre-wrap; }
         .metric { margin: 1rem 0 .3rem; font: 650 2.2rem/1 var(--saba-font-mono); }
         .muted { color: var(--saba-text-muted); font-size: .84rem; }
+        .divider { margin: 1.5rem 0; border: 0; border-top: 1px solid var(--saba-border); }
         @media (max-width: 52rem) {
           body { height: auto; overflow: auto; }
           .app { grid-template-columns: 1fr; }
@@ -81,7 +82,7 @@ reproducibility .. ok
             <h2>Status</h2>
             <div class="metric"><span aria-hidden="true">✓</span> PASS</div>
             <p class="muted">All required checks completed successfully.</p>
-            <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid var(--saba-border);">
+            <hr class="divider">
             <span class="saba-chip">main</span> <span class="saba-chip">clean</span>
           </section>
         </div>
