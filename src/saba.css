@@ -335,6 +335,10 @@
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
 }
 
+/*
+ * print は @layer の外 (unlayered) に置く。cascade layer の規則により、
+ * layered な theme token (:root[data-theme="dark"] を含む) より常に優先される。
+ */
 @media print {
   :root {
     --saba-bg: #fff;
