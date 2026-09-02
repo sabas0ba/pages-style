@@ -3,65 +3,92 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sabas0ba Pages Design — checkpoint 1</title>
+    <title>Sabas0ba Pages Design — checkpoint 2</title>
     <script src="assets/theme.js"></script>
     <link rel="stylesheet" href="../src/saba.css">
     <style>
       @layer site {
-        body { display: flex; flex-direction: column; }
-        .wrap { padding-block: 4rem; }
-        .title { margin: 0; font-family: var(--saba-font-mono); }
-        .lead { max-width: 44rem; color: var(--saba-text-muted); }
-        .links { margin-top: 2rem; }
-        .links a { display: block; padding: 1rem; margin: .75rem 0; }
-        .links strong { display: block; margin-bottom: .25rem; color: var(--saba-text); font-family: var(--saba-font-mono); }
-        .links span { color: var(--saba-text-muted); font-size: .88rem; }
-        .usage { margin-top: 3rem; }
+        .hero { padding: clamp(2rem, 6vw, 4rem) var(--saba-gutter) 2.5rem; border-bottom: 1px solid var(--saba-border); }
+        .hero .no { font-family: var(--saba-font-mono); font-size: 0.75rem; color: var(--saba-text-muted); }
+        .hero h1 { margin: 0.4rem 0 0; font: 700 clamp(1.8rem, 5vw, 2.8rem)/1.15 var(--saba-font-mono); letter-spacing: -0.03em; }
+        .hero p { max-width: 44rem; margin: 1.2rem 0 0; color: var(--saba-text-muted); }
+        .usage { padding-block: 2.5rem 3rem; }
       }
     </style>
   </head>
-  <body class="saba-grid-background">
+  <body>
     <a class="saba-skip-link" href="#main">本文へ移動</a>
-    <header class="saba-site-header">
-      <div class="saba-site-header__inner">
-        <a class="saba-brand" href="https://github.com/sabas0ba/pages-style"><span class="saba-brand__owner">sabas0ba / </span>pages design</a>
-        <div class="saba-theme-switcher" data-saba-theme-switcher hidden role="group" aria-label="表示テーマ">
-          <button type="button" data-theme-value="auto" aria-pressed="false">auto</button>
-          <button type="button" data-theme-value="light" aria-pressed="false">light</button>
-          <button type="button" data-theme-value="dark" aria-pressed="false">dark</button>
+    <div class="saba-sheet">
+      <header class="saba-site-header">
+        <div class="saba-site-header__inner">
+          <a class="saba-brand" href="https://github.com/sabas0ba/pages-style"><span class="saba-brand__owner">sabas0ba / </span>pages design</a>
+          <nav class="saba-nav" aria-label="主要ナビゲーション">
+            <a aria-current="page" href="#main">index</a>
+            <a href="https://github.com/sabas0ba/pages-style/blob/main/docs/design.md">design</a>
+          </nav>
+          <div class="saba-theme-switcher" data-saba-theme-switcher hidden role="group" aria-label="表示テーマ">
+            <button type="button" data-theme-value="auto" aria-pressed="false">auto</button>
+            <button type="button" data-theme-value="light" aria-pressed="false">light</button>
+            <button type="button" data-theme-value="dark" aria-pressed="false">dark</button>
+          </div>
         </div>
-      </div>
-    </header>
-    <main id="main" class="saba-page wrap">
-      <h1 class="title">Checkpoint 1</h1>
-      <p class="lead">Portfolio / Documentation / Application の 3 用途を同じ design token と component API で表現する静的サンプルです。</p>
-      <nav class="links" aria-label="サンプル一覧">
-        <a class="saba-card saba-card__body" href="portfolio.html">
-          <strong>Portfolio</strong>
-          <span>現行 sabas0ba/sabas0ba に近い card + dot grid 表現</span>
-        </a>
-        <a class="saba-card saba-card__body" href="docs.html">
-          <strong>Documentation</strong>
-          <span>長文・code・navigation を重視した文書向け表現</span>
-        </a>
-        <a class="saba-card saba-card__body" href="app.html">
-          <strong>Application</strong>
-          <span>panel / form control / workspace を使う Web アプリ向け表現</span>
-        </a>
-      </nav>
-      <section class="saba-prose usage" aria-labelledby="usage-title">
-        <h2 id="usage-title">CSS の使い方</h2>
-        <p><a href="https://github.com/sabas0ba/pages-style/blob/main/src/saba.css">src/saba.css</a> を利用側repositoryへvendorし、取得元commit SHAを記録します。latest URLへのruntime依存は使用しません。</p>
-        <pre><code>&lt;link rel="stylesheet" href="assets/vendor/saba.css"&gt;
+      </header>
+      <main id="main">
+        <section class="hero">
+          <div class="no">SHEET 00 · INDEX</div>
+          <h1>Checkpoint 2</h1>
+          <p>Portfolio / Documentation / Application の 3 用途を、図面の語彙 (frame、罫線、採番、表題欄) と共通 token で表現する静的サンプルです。</p>
+        </section>
+        <nav aria-label="サンプル一覧">
+          <a class="saba-fig" href="portfolio.html">
+            <div class="saba-fig__no">FIG. 01</div>
+            <div class="saba-fig__thumb saba-hatch"><span>portfolio</span></div>
+            <div class="saba-fig__body">
+              <h2 class="saba-fig__title">Portfolio</h2>
+              <p class="saba-fig__desc">作品を採番して列挙する 1 枚の図面。hatching thumb、表題欄。</p>
+            </div>
+          </a>
+          <a class="saba-fig" href="docs.html">
+            <div class="saba-fig__no">FIG. 02</div>
+            <div class="saba-fig__thumb saba-hatch"><span>docs</span></div>
+            <div class="saba-fig__body">
+              <h2 class="saba-fig__title">Documentation</h2>
+              <p class="saba-fig__desc">仕様書。目次、節番号付き見出し、code、table、blockquote。</p>
+            </div>
+          </a>
+          <a class="saba-fig" href="app.html">
+            <div class="saba-fig__no">FIG. 03</div>
+            <div class="saba-fig__thumb saba-hatch"><span>app</span></div>
+            <div class="saba-fig__body">
+              <h2 class="saba-fig__title">Application</h2>
+              <p class="saba-fig__desc">計器盤。panel、form control、terminal、状態表示。</p>
+            </div>
+          </a>
+        </nav>
+        <section class="saba-page usage" aria-labelledby="usage-title">
+          <div class="saba-prose">
+            <h2 id="usage-title">CSS の使い方</h2>
+            <p><a href="https://github.com/sabas0ba/pages-style/blob/main/src/saba.css">src/saba.css</a> を利用側 repository へ vendor し、取得元 commit SHA を記録します。latest URL への runtime 依存は使用しません。</p>
+            <pre><code>&lt;link rel="stylesheet" href="assets/vendor/saba.css"&gt;
 
-&lt;main class="saba-page"&gt;
-  &lt;article class="saba-card"&gt;...&lt;/article&gt;
-&lt;/main&gt;</code></pre>
-        <p>利用可能なtokens、components、page profilesは<a href="https://github.com/sabas0ba/pages-style/blob/main/docs/design.md">design document</a>を参照してください。</p>
-      </section>
-    </main>
-    <footer class="saba-site-footer">
-      <div class="saba-site-footer__inner"><span>Apache-2.0</span><span><a href="https://github.com/sabas0ba/pages-style">repository</a></span></div>
-    </footer>
+&lt;div class="saba-sheet"&gt;
+  &lt;header class="saba-site-header"&gt;...&lt;/header&gt;
+  &lt;main&gt;...&lt;/main&gt;
+  &lt;footer class="saba-site-footer"&gt;...&lt;/footer&gt;
+&lt;/div&gt;</code></pre>
+            <p>利用可能な tokens、components、page profiles は <a href="https://github.com/sabas0ba/pages-style/blob/main/docs/design.md">design document</a> を参照してください。</p>
+          </div>
+        </section>
+      </main>
+      <footer class="saba-site-footer">
+        <div class="saba-site-footer__inner"><span>sabas0ba.github.io/pages-style</span><span><a href="https://github.com/sabas0ba/pages-style">repository</a></span></div>
+        <div class="saba-titleblock" aria-label="表題欄">
+          <div>PROJECT</div><div>pages-style</div>
+          <div>SHEET</div><div>00 / 03</div>
+          <div>REV</div><div class="saba-titleblock__rev">C2</div>
+          <div>LICENSE</div><div>Apache-2.0</div>
+        </div>
+      </footer>
+    </div>
   </body>
 </html>

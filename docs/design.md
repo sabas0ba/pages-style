@@ -1,7 +1,7 @@
 # Sabas0ba Pages Design v1 (draft)
 
 `sabas0ba/sabas0ba` の portfolio 表現と `sabas0ba/dotfiles` の document UI を共通語彙へ統合する。
-この文書と `src/saba.css` は checkpoint 1 の draft であり、既存 Pages への適用前に API を固定する。
+この文書と `src/saba.css` は checkpoint 2 の draft であり、既存 Pages への適用前に API を固定する。
 
 ## 目的
 
@@ -10,33 +10,45 @@
 - 外部 theme、web font、runtime dependency を必要としない。
 - 依存する場合は SHA で固定できる静的 asset として扱う。
 
+## 意匠の方針: 図面
+
+主題 (reproducible engineering) と表現を一致させ、ページを 1 枚の機械図面として組む。checkpoint 1 の template 的な要素 (角丸 card と影、dot grid、pill、uppercase eyebrow、斜め gradient、GitHub Primer の配色) は採らない。
+
+- 構造は罫線と frame で作る。面の重なりや影で階層を表現しない。
+- 角丸は使わない (radius 0)。
+- 列挙は採番する (`FIG. 01`)。番号は装飾ではなく、列挙可能な内容にのみ付ける。
+- placeholder 面は gradient ではなく hatching で表す。
+- 識別情報 (project、sheet、rev、license) は表題欄にまとめる。
+- light は製図用紙と墨、dark は青焼き (diazo blueprint) として、別の紙に切り替える。dark は light の単純な反転ではない。
+
 ## Design language
 
 ### Color
 
 component から色を直接参照せず、`--saba-*` token を使う。
 
-主要 token:
+| token | 用途 | light | dark (青焼き) |
+| --- | --- | --- | --- |
+| `--saba-bg` | 紙 | `#f5f4ee` | `#14293d` |
+| `--saba-surface` | panel / input | `#faf9f5` | `#172e44` |
+| `--saba-surface-raised` | inline code / th | `#eceae1` | `#1d3852` |
+| `--saba-text` | 墨 / 線 | `#2a2924` | `#d8e5f0` |
+| `--saba-text-muted` | 注記 | `#6f6c60` | `#8aa4bb` |
+| `--saba-border` | 細罫 | `#cfccbd` | `#33506a` |
+| `--saba-border-strong` | 太罫 / frame | `#2a2924` | `#d8e5f0` |
+| `--saba-accent` | 検図印 (朱) / marker | `#b0402f` | `#e6c37c` |
+| `--saba-hatch` | hatching 線 | `rgb(42 41 36 / 18%)` | `rgb(216 229 240 / 16%)` |
+| `--saba-grid-line` | 方眼 | `rgb(42 41 36 / 9%)` | `rgb(216 229 240 / 7%)` |
 
-- `--saba-bg`: page background
-- `--saba-surface`: card / panel
-- `--saba-surface-raised`: secondary surface
-- `--saba-text`: primary text
-- `--saba-text-muted`: metadata
-- `--saba-border`: separator / outline
-- `--saba-accent`: link / focus / active state
-
-Dark theme は `#0d1117` を background とする現行 portfolio を基準にする。
-Accent hue は既定 250。portfolio のランダム hue は site-local な演出とし、共通 component の仕様にはしない。
+accent の使用箇所は限定する: `aria-current` の下線、表題欄の REV、`:focus-visible`、prose 内 link、primary button の hover。状態の強調は accent ではなく inverse video (地と文字の反転) を優先する。
 
 ### Typography
 
-- Document body: system sans-serif。日本語glyphは読みやすさを優先し、`BIZ UDPGothic`、`Hiragino Sans`、`Yu Gothic UI`、`Noto Sans CJK JP`の順で利用可能なfontへfallbackする
-- Navigation / metadata / UI labels: monospace。日本語glyphは`BIZ UDGothic`または`Noto Sans Mono CJK JP`へfallbackする
-- Documentation heading: bodyと同じ日本語sans-serif stack
-- Portfolio / Application heading: monospaceを使用可能
+- Document body: system sans-serif。日本語 glyph は読みやすさを優先し、`BIZ UDPGothic`、`Hiragino Sans`、`Yu Gothic UI`、`Noto Sans CJK JP` の順で利用可能な font へ fallback する
+- Navigation / metadata / 採番 / 表題欄 / UI labels: monospace。日本語 glyph は `BIZ UDGothic` または `Noto Sans Mono CJK JP` へ fallback する
+- 見出し: monospace bold、letter-spacing を詰める (図面の lettering)
 - Code: monospace
-- Portfolio は site-local override により body も monospace にできる
+- uppercase + 広い letter-spacing の eyebrow は使わない。採番 (`SHEET 01`、`FIG. 01`) は図面の注記として mono 小文字サイズで置く
 
 ### Spacing
 
@@ -44,66 +56,67 @@ Accent hue は既定 250。portfolio のランダム hue は site-local な演�
 
 `4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 px`
 
-### Radius
+`--saba-gutter` (1.4rem) が frame 内の水平余白、`--saba-sheet-margin` が紙の外周余白。
 
-- small: 4 px
-- medium: 9.6 px (`0.6rem`)
-- pill: `999px`
+### 罫線
+
+- 太罫 (`--saba-border-strong`, 1〜1.5px): frame、header / footer の区切り、prose の h2 上罫
+- 細罫 (`--saba-border`, 1px): 行区切り、表、panel
+- frame は外周 1.5px + 内側 1px (`outline`) の二重線
 
 ### Motion
 
-- UI interaction: 150 ms
-- image / larger transition: 300 ms
+- UI interaction: 150 ms (border-color のみ)
+- hover で要素を動かさない (translate、scale を使わない)
 - `prefers-reduced-motion: reduce` を常に尊重する
 
 ## Components
 
 Public class は `saba-` prefix を必須とする。
 
-- `.saba-site-header`
-- `.saba-brand`
-- `.saba-nav`
-- `.saba-card`
-- `.saba-panel`
-- `.saba-chip`
-- `.saba-button`
-- `.saba-input`
+- `.saba-sheet`: 図面 frame。header / main / footer を包む
+- `.saba-site-header`, `.saba-brand`, `.saba-nav`, `.saba-theme-switcher`
+- `.saba-fig` (`__no`, `__thumb`, `__title`, `__desc`, `__body`): 採番付きの行
+- `.saba-hatch`: hatching 面
+- `.saba-card`, `.saba-panel`: 細罫の面。影と角丸を持たない
+- `.saba-chip`: `[ label ]` 形式の mono ラベル
+- `.saba-button`, `.saba-button--primary`, `.saba-input`
+- `.saba-titleblock` (`__rev`): 表題欄
 - `.saba-site-footer`
-- `.saba-page`
-- `.saba-prose`
-- `.saba-grid`
-- `.saba-grid-background`
+- `.saba-page`, `.saba-prose`, `.saba-grid`, `.saba-grid-background` (方眼)
 
-Site 固有 class は `@layer site` で定義し、共通 component より後に上書きする。
+Site 固有 class は `@layer site` で定義し、共通 component より後に上書きする。inline style は使わない。
 
 ## Page profiles
 
-### Portfolio
+### Portfolio (図面)
 
-- dot grid background を使用可能
-- card / preview / tag を中心とする
-- body monospace を許可
-- animation は補助的に使用可能
+- `.saba-sheet` で全体を frame に入れる
+- hero は採番注記 + mono 見出し
+- 作品は `.saba-fig` で採番して列挙し、thumb は `.saba-hatch`
+- footer に表題欄
 
-### Documentation
+### Documentation (仕様書)
 
-- body は system sans-serif
+- `.saba-sheet` で frame に入れ、左に目次 (節番号付き)、右に `.saba-prose`
+- 見出しは節番号を content に持つ (`1. セットアップ`)
 - content measure は 48 rem を既定とする
-- code / blockquote / table 等の読みやすさを優先する
-- dot grid は使用しない
+- 方眼は使わない
 
-### Application
+### Application (計器盤)
 
-- header、panel、form control、focus state を共有する
-- workspace layout は application 固有 CSS とする
+- frame は使わず全面を workspace にする。header と sidebar の区切りは太罫
+- sidebar の現在項目、metric の mark は inverse video
+- panel は `.saba-panel`、panel 見出しは mono + 細罫
+- 最下部に mono の status strip (application 固有 CSS)
 - 共通 CSS に application 固有の sidebar 幅等を入れない
 
 ## Theme
 
 共通 CSS は以下を扱う。
 
-1. light token
-2. `prefers-color-scheme: dark`
+1. light token (製図用紙)
+2. `prefers-color-scheme: dark` (青焼き)
 3. `data-theme="light|dark"` による明示 override
 
 Theme selector の保存方法や toggle UI は site 側の責務とし、CSS に JavaScript dependency を持たせない。
@@ -114,7 +127,7 @@ checkpoint sample では `examples/assets/theme.js` を site 側 helper の例�
 
 - `:focus-visible` を定義する
 - navigation の現在位置は `aria-current="page"` を使用する
-- state を色のみで表現しない
+- state を色のみで表現しない (inverse video、下線、採番で示す)
 - `prefers-reduced-motion` に対応する
 - semantic HTML を優先する
 - interactive target は keyboard 操作可能な native element を優先する
@@ -136,15 +149,15 @@ vendor file には source repository と commit SHA をコメントで記録す�
 
 ## Runtime dependency
 
-公開artifactはrepository内のCSS、HTML、JavaScriptだけで完結させる。次を使用しない。
+公開 artifact は repository 内の CSS、HTML、JavaScript だけで完結させる。次を使用しない。
 
-- CDNまたは外部hostのstylesheet / script / font
+- CDN または外部 host の stylesheet / script / font
 - CSS `@import`
-- JavaScript packageまたはmodule import
-- npm / pip等によるbuild dependency
+- JavaScript package または module import
+- npm / pip 等による build dependency
 
-CIとdeploymentに使用するGitHub Actionsおよび`dotfiles`はruntime dependencyに含めず、commit SHAで一意に固定する。
+CI と deployment に使用する GitHub Actions および `dotfiles` は runtime dependency に含めず、commit SHA で一意に固定する。
 
 ## License
 
-Apache License 2.0を適用する。配布する`src/saba.css`にはSPDX identifierとcopyright noticeを付与する。
+Apache License 2.0 を適用する。配布する `src/saba.css` には SPDX identifier と copyright notice を付与する。
