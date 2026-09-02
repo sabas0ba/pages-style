@@ -38,6 +38,10 @@ required_css_api=(
   '.saba-button'
   '.saba-button--primary'
   '.saba-grid-background'
+  '.saba-sheet'
+  '.saba-fig'
+  '.saba-titleblock'
+  '.saba-hatch'
   ':focus-visible'
   'prefers-color-scheme: dark'
   'prefers-reduced-motion: reduce'
@@ -55,6 +59,16 @@ test "$opening_braces" -eq "$closing_braces" || fail "$css_file の brace 数が
 
 if grep -Eiq '@import|url\([^)]*https?://' "$css_file"; then
   fail "$css_file に外部 asset dependency があります"
+fi
+
+# 図面の設計規約: 影、角丸、blur、斜め gradient を common CSS に持ち込まない。
+if grep -Eq 'box-shadow|border-radius|backdrop-filter|linear-gradient\(135deg' "$css_file"; then
+  fail "$css_file に設計規約で禁止した装飾 (shadow / radius / blur / 斜め gradient) があります"
+fi
+
+# sample の site 固有 style は @layer site に置き、inline style を使わない。
+if grep -Eq '<[^>]* style="' "${html_files[@]}"; then
+  fail "sample に inline style があります"
 fi
 
 grep -Fq 'data-saba-theme-switcher' "$theme_helper" || fail "$theme_helper に theme switcher 処理がありません"
