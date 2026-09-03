@@ -6,8 +6,11 @@ html_files=(
   examples/portfolio.html
   examples/docs.html
   examples/app.html
+  examples/sea.html
 )
 css_file=src/saba.css
+sea_css=src/saba-sea.css
+sea_js=src/saba-sea.js
 theme_helper=examples/assets/theme.js
 
 fail() {
@@ -57,7 +60,8 @@ opening_braces=$(grep -o '{' "$css_file" | wc -l)
 closing_braces=$(grep -o '}' "$css_file" | wc -l)
 test "$opening_braces" -eq "$closing_braces" || fail "$css_file の brace 数が一致しません"
 
-if grep -Eiq '@import|url\([^)]*https?://' "$css_file"; then
+# data URI 内の xmlns (http://www.w3.org/...) は外部依存ではないため、url( の直後だけを見る
+if grep -Eiq '@import|url\([[:space:]]*["'"'"']?https?://' "$css_file"; then
   fail "$css_file に外部 asset dependency があります"
 fi
 
@@ -70,6 +74,23 @@ fi
 if grep -Eq '<[^>]* style="' "${html_files[@]}"; then
   fail "sample に inline style があります"
 fi
+
+# sea component: 属性 API、外部依存なし、module 非依存
+for selector in 'body\[data-sea' 'data-sea-style' 'data-fish' '.saba-tank' '.saba-fish' '.saba-sea-bg' 'prefers-reduced-motion: reduce'; do
+  grep -Eq -- "$selector" "$sea_css" || fail "$sea_css に $selector がありません"
+done
+if grep -Eiq '@import|url\([[:space:]]*["'"'"']?https?://' "$sea_css"; then
+  fail "$sea_css に外部 asset dependency があります"
+fi
+for kind in saba kingyo medaka fugu kurage tai ika; do
+  grep -Fq "$kind:" "$sea_js" || fail "$sea_js に魚 $kind がありません"
+done
+grep -Fq 'window.sabaSea' "$sea_js" || fail "$sea_js に setup API がありません"
+if grep -Eq '(^|[^[:alnum:]_])import[[:space:]]*(\(|[^;]*from)|https?://' "$sea_js"; then
+  fail "$sea_js に module または外部依存があります"
+fi
+grep -Fq 'data-sea="tide"' examples/portfolio.html || fail "portfolio sample に sea component が組み込まれていません"
+grep -Fq 'data-fish="none"' examples/sea.html || fail "sea sample に魚なし版の説明がありません"
 
 grep -Fq 'data-saba-theme-switcher' "$theme_helper" || fail "$theme_helper に theme switcher 処理がありません"
 grep -Fq 'localStorage' "$theme_helper" || fail "$theme_helper に user override の保存処理がありません"

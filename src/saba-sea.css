@@ -1,0 +1,123 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* Copyright 2026 sabas0ba */
+
+/*
+ * saba-sea.css — 海と魚の optional component。
+ * saba.css とは独立して読み込み、saba-sea.js と組で使う。
+ * 利用側は <body data-sea="tide" data-sea-style="pixel" data-fish="saba"> のように指定する。
+ *   data-sea:       tide | deep | tank        (海: 背景と帯の模様)
+ *   data-sea-style: pixel | ascii | mono | modern | calm | pop | blueprint (雰囲気: 魚の描画方式と帯の色)
+ *   data-fish:      none | saba | kingyo | medaka | fugu | kurage | tai | ika (魚。none は背景だけ)
+ * 色は --saba-sea-* token で持ち、雰囲気ごとに light / dark の値を定義する。
+ */
+
+@layer saba.sea;
+
+@layer saba.sea {
+  /* ---- token: 雰囲気ごとの色と速さ。既定 (pixel) は潮の色 ---- */
+  body[data-sea] {
+    --saba-sea-water: #e3ebee;
+    --saba-sea-deep: #d3e0e6;
+    --saba-sea-wave: #1d2a33;
+    --saba-sea-line: #c9d5da;
+    --saba-sea-ink: #1d2a33;
+    --saba-sea-muted: #5f6f7a;
+    --saba-sea-sand: #e8dcc0;
+    --saba-sea-weed: #5aa36e;
+    --saba-sea-speed: 1;
+    /* 鯖縞: 背の波縞。mask に使い、色は background で与える */
+    --saba-sea-jima: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='48'%20height='10'%3E%3Cpath%20d='M0%205c6-5%2012-5%2018%200s12%205%2018%200%2012-5%2012%200'%20fill='none'%20stroke='%23000'%20stroke-width='1.4'/%3E%3Cpath%20d='M-6%208c6-5%2012-5%2018%200s12%205%2018%200%2012-5%2018%200'%20fill='none'%20stroke='%23000'%20stroke-width='.8'%20opacity='.6'/%3E%3C/svg%3E");
+    --saba-sea-font: ui-monospace, "Cascadia Mono", "SFMono-Regular", Consolas, "BIZ UDGothic", "Noto Sans Mono CJK JP", monospace;
+  }
+  body[data-sea-style="ascii"] { --saba-sea-water: #efefe8; --saba-sea-deep: #e6e6de; --saba-sea-wave: #202020; --saba-sea-line: #202020; --saba-sea-ink: #202020; --saba-sea-muted: #6a6a64; --saba-sea-speed: 0.9; }
+  body[data-sea-style="mono"] { --saba-sea-water: #f2f2f2; --saba-sea-deep: #e6e6e6; --saba-sea-wave: #111; --saba-sea-line: #111; --saba-sea-ink: #111; --saba-sea-muted: #666; --saba-sea-sand: #ddd; --saba-sea-weed: #555; --saba-sea-speed: 0.9; }
+  body[data-sea-style="modern"] { --saba-sea-water: #e6eefc; --saba-sea-deep: #d6e2fa; --saba-sea-wave: #2f6df6; --saba-sea-line: #c9d7f2; --saba-sea-ink: #172033; --saba-sea-muted: #5d6a85; --saba-sea-sand: #f2e6c9; --saba-sea-weed: #4fb26f; }
+  body[data-sea-style="calm"] { --saba-sea-water: #e8e4dc; --saba-sea-deep: #ddd7cc; --saba-sea-wave: #6e7f6a; --saba-sea-line: #ddd6cc; --saba-sea-ink: #3b3733; --saba-sea-muted: #7a736c; --saba-sea-sand: #e3d8c2; --saba-sea-weed: #7f9479; --saba-sea-speed: 0.5; }
+  body[data-sea-style="pop"] { --saba-sea-water: #bde9ff; --saba-sea-deep: #8fd6ff; --saba-sea-wave: #ff5a8a; --saba-sea-line: #ffd9a8; --saba-sea-ink: #2b1d3a; --saba-sea-muted: #7a6a8a; --saba-sea-sand: #ffd66b; --saba-sea-weed: #3ecf8e; --saba-sea-speed: 1.3; }
+  body[data-sea-style="blueprint"] { --saba-sea-water: #ece9df; --saba-sea-deep: #e3dfd2; --saba-sea-wave: #2a2924; --saba-sea-line: #cfccbd; --saba-sea-ink: #2a2924; --saba-sea-muted: #6f6c60; --saba-sea-sand: #e0d9c4; --saba-sea-weed: #6f6c60; --saba-sea-speed: 0.8; }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) body[data-sea] { --saba-sea-water: #0f1d26; --saba-sea-deep: #0a1620; --saba-sea-wave: #9fd3e6; --saba-sea-line: #25404d; --saba-sea-ink: #d5e2e8; --saba-sea-muted: #7f95a2; --saba-sea-sand: #3b3325; --saba-sea-weed: #2f7a4a; }
+    :root:not([data-theme="light"]) body[data-sea-style="ascii"] { --saba-sea-water: #161a1b; --saba-sea-deep: #111415; --saba-sea-wave: #c8ccc2; --saba-sea-line: #c8ccc2; --saba-sea-ink: #c8ccc2; --saba-sea-muted: #7e847a; }
+    :root:not([data-theme="light"]) body[data-sea-style="mono"] { --saba-sea-water: #1c1c1c; --saba-sea-deep: #161616; --saba-sea-wave: #ececec; --saba-sea-line: #ececec; --saba-sea-ink: #ececec; --saba-sea-muted: #9a9a9a; --saba-sea-sand: #2a2a2a; --saba-sea-weed: #8a8a8a; }
+    :root:not([data-theme="light"]) body[data-sea-style="modern"] { --saba-sea-water: #172238; --saba-sea-deep: #101a2c; --saba-sea-wave: #6b9cff; --saba-sea-line: #24304a; --saba-sea-ink: #e4e9f5; --saba-sea-muted: #8b97b3; --saba-sea-sand: #3a3323; --saba-sea-weed: #2e8a52; }
+    :root:not([data-theme="light"]) body[data-sea-style="calm"] { --saba-sea-water: #26231f; --saba-sea-deep: #1f1c19; --saba-sea-wave: #9fb09a; --saba-sea-line: #36322d; --saba-sea-ink: #d9d3ca; --saba-sea-muted: #8f887f; --saba-sea-sand: #3a3328; --saba-sea-weed: #5c7358; }
+    :root:not([data-theme="light"]) body[data-sea-style="pop"] { --saba-sea-water: #1c5c8a; --saba-sea-deep: #124068; --saba-sea-wave: #ff7aa5; --saba-sea-line: #4a3a66; --saba-sea-ink: #fff3f8; --saba-sea-muted: #b9a9c9; --saba-sea-sand: #7a5a1a; --saba-sea-weed: #2fb37a; }
+    :root:not([data-theme="light"]) body[data-sea-style="blueprint"] { --saba-sea-water: #172e44; --saba-sea-deep: #10243a; --saba-sea-wave: #d8e5f0; --saba-sea-line: #33506a; --saba-sea-ink: #d8e5f0; --saba-sea-muted: #8aa4bb; --saba-sea-sand: #2a3f55; --saba-sea-weed: #8aa4bb; }
+  }
+  :root[data-theme="dark"] body[data-sea] { --saba-sea-water: #0f1d26; --saba-sea-deep: #0a1620; --saba-sea-wave: #9fd3e6; --saba-sea-line: #25404d; --saba-sea-ink: #d5e2e8; --saba-sea-muted: #7f95a2; --saba-sea-sand: #3b3325; --saba-sea-weed: #2f7a4a; }
+  :root[data-theme="dark"] body[data-sea-style="ascii"] { --saba-sea-water: #161a1b; --saba-sea-deep: #111415; --saba-sea-wave: #c8ccc2; --saba-sea-line: #c8ccc2; --saba-sea-ink: #c8ccc2; --saba-sea-muted: #7e847a; }
+  :root[data-theme="dark"] body[data-sea-style="mono"] { --saba-sea-water: #1c1c1c; --saba-sea-deep: #161616; --saba-sea-wave: #ececec; --saba-sea-line: #ececec; --saba-sea-ink: #ececec; --saba-sea-muted: #9a9a9a; --saba-sea-sand: #2a2a2a; --saba-sea-weed: #8a8a8a; }
+  :root[data-theme="dark"] body[data-sea-style="modern"] { --saba-sea-water: #172238; --saba-sea-deep: #101a2c; --saba-sea-wave: #6b9cff; --saba-sea-line: #24304a; --saba-sea-ink: #e4e9f5; --saba-sea-muted: #8b97b3; --saba-sea-sand: #3a3323; --saba-sea-weed: #2e8a52; }
+  :root[data-theme="dark"] body[data-sea-style="calm"] { --saba-sea-water: #26231f; --saba-sea-deep: #1f1c19; --saba-sea-wave: #9fb09a; --saba-sea-line: #36322d; --saba-sea-ink: #d9d3ca; --saba-sea-muted: #8f887f; --saba-sea-sand: #3a3328; --saba-sea-weed: #5c7358; }
+  :root[data-theme="dark"] body[data-sea-style="pop"] { --saba-sea-water: #1c5c8a; --saba-sea-deep: #124068; --saba-sea-wave: #ff7aa5; --saba-sea-line: #4a3a66; --saba-sea-ink: #fff3f8; --saba-sea-muted: #b9a9c9; --saba-sea-sand: #7a5a1a; --saba-sea-weed: #2fb37a; }
+  :root[data-theme="dark"] body[data-sea-style="blueprint"] { --saba-sea-water: #172e44; --saba-sea-deep: #10243a; --saba-sea-wave: #d8e5f0; --saba-sea-line: #33506a; --saba-sea-ink: #d8e5f0; --saba-sea-muted: #8aa4bb; --saba-sea-sand: #2a3f55; --saba-sea-weed: #8aa4bb; }
+
+  /* 魚がいるときは帯の高さぶん本文の下に余白を取る */
+  body[data-sea]:not([data-fish="none"]) { padding-bottom: 6.5rem; }
+
+  /* ---- 背景: 模様は海の種類、色は雰囲気。transform だけを動かす ---- */
+  .saba-sea-bg { position: fixed; inset: -10% -60px; z-index: 0; pointer-events: none; }
+  .saba-sea-bg::before, .saba-sea-bg::after { content: ""; position: absolute; inset: 0; background: var(--saba-sea-wave); }
+  body[data-sea="tide"] .saba-sea-bg::before { opacity: 0.07; -webkit-mask: var(--saba-sea-jima) repeat; mask: var(--saba-sea-jima) repeat; -webkit-mask-size: 96px 20px; mask-size: 96px 20px; animation: saba-sea-drift calc(60s / var(--saba-sea-speed)) linear infinite; }
+  body[data-sea="tide"] .saba-sea-bg::after { opacity: 0.04; -webkit-mask: var(--saba-sea-jima) repeat; mask: var(--saba-sea-jima) repeat; -webkit-mask-size: 144px 30px; mask-size: 144px 30px; animation: saba-sea-drift calc(100s / var(--saba-sea-speed)) linear infinite reverse; }
+  body[data-sea="deep"] .saba-sea-bg::before { opacity: 0.35; background: radial-gradient(circle, var(--saba-sea-wave) 1px, transparent 1.6px) 0 0 / 90px 120px; animation: saba-sea-snow calc(40s / var(--saba-sea-speed)) linear infinite; }
+  body[data-sea="deep"] .saba-sea-bg::after { opacity: 0.18; background: radial-gradient(circle, var(--saba-sea-wave) 0.8px, transparent 1.4px) 30px 50px / 140px 170px; animation: saba-sea-snow calc(70s / var(--saba-sea-speed)) linear infinite; }
+  body[data-sea="tank"] .saba-sea-bg::before { opacity: 0.12; background: repeating-linear-gradient(115deg, transparent 0 60px, var(--saba-sea-wave) 60px 62px, transparent 62px 140px); animation: saba-sea-glass calc(90s / var(--saba-sea-speed)) linear infinite; }
+  body[data-sea="tank"] .saba-sea-bg::after { opacity: 0.06; background: repeating-linear-gradient(115deg, transparent 0 90px, var(--saba-sea-wave) 90px 96px, transparent 96px 220px); animation: saba-sea-glass calc(130s / var(--saba-sea-speed)) linear infinite reverse; }
+  body[data-sea-style="ascii"] .saba-sea-bg { display: none; }
+  @keyframes saba-sea-drift { to { transform: translateX(96px); } }
+  @keyframes saba-sea-snow { to { transform: translateY(-120px); } }
+  @keyframes saba-sea-glass { to { transform: translateX(220px); } }
+
+  /* ---- 帯 (水槽) ---- */
+  .saba-tank { position: fixed; left: 0; right: 0; bottom: 0; height: 5.5rem; z-index: 2; background: linear-gradient(var(--saba-sea-water), var(--saba-sea-deep)); border-top: 1px solid var(--saba-sea-line); }
+  body[data-fish="none"] .saba-tank { display: none; }
+  .saba-tank__surface { position: absolute; left: -48px; right: -48px; top: -2px; height: 10px; background: var(--saba-sea-wave); opacity: 0.35; -webkit-mask: var(--saba-sea-jima) repeat-x; mask: var(--saba-sea-jima) repeat-x; animation: saba-sea-sway calc(6s / var(--saba-sea-speed)) ease-in-out infinite alternate; }
+  @keyframes saba-sea-sway { to { transform: translateX(24px); } }
+  body[data-sea-style="ascii"] .saba-tank__surface { -webkit-mask: none; mask: none; background: none; opacity: 0.6; left: 0; right: 0; top: -0.2rem; height: auto; overflow: hidden; white-space: nowrap; font: 0.8rem/1 var(--saba-sea-font); color: var(--saba-sea-ink); animation: none; }
+  body[data-sea-style="ascii"] .saba-tank__surface::before { content: "~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_~^~_"; }
+  body[data-sea-style="blueprint"] .saba-tank { background: linear-gradient(var(--saba-sea-line) 1px, transparent 1px) 0 0 / 26px 26px, linear-gradient(90deg, var(--saba-sea-line) 1px, transparent 1px) 0 0 / 26px 26px, linear-gradient(var(--saba-sea-water), var(--saba-sea-deep)); }
+  body[data-sea="tank"] .saba-tank::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 0.9rem; background: var(--saba-sea-sand); background-image: radial-gradient(circle, rgb(0 0 0 / 12%) 1px, transparent 1.5px); background-size: 9px 7px; }
+  .saba-tank__weed { position: absolute; bottom: 0.7rem; width: 6px; background: var(--saba-sea-weed); transform-origin: 50% 100%; animation: saba-sea-weed calc(4s / var(--saba-sea-speed)) ease-in-out infinite alternate; }
+  .saba-tank__weed:nth-of-type(1) { left: 8%; height: 2.6rem; }
+  .saba-tank__weed:nth-of-type(2) { left: 11%; height: 1.8rem; animation-delay: -2s; }
+  .saba-tank__weed:nth-of-type(3) { right: 14%; height: 2.2rem; animation-delay: -1s; }
+  body:not([data-sea="tank"]) .saba-tank__weed { display: none; }
+  @keyframes saba-sea-weed { from { transform: rotate(-6deg); } to { transform: rotate(6deg); } }
+
+  /* ---- 魚 ---- */
+  .saba-fish { position: absolute; top: 1.2rem; left: 0; cursor: pointer; background: none; border: 0; padding: 0; color: var(--saba-sea-ink); transform: translate(var(--x, 0), var(--y, 0)) scaleX(var(--face, 1)) rotate(var(--rot, 0deg)) scale(var(--puff, 1)); }
+  .saba-fish canvas { display: block; image-rendering: pixelated; }
+  .saba-fish pre { margin: 0; font: 1.05rem/1.05 var(--saba-sea-font); white-space: pre; }
+  .saba-fish svg { display: block; width: 88px; height: 44px; overflow: visible; }
+  .saba-fish svg .tail { transform-origin: 82% 50%; animation: saba-sea-tail calc(0.7s / var(--saba-sea-speed)) ease-in-out infinite alternate; }
+  @keyframes saba-sea-tail { from { transform: rotate(-8deg); } to { transform: rotate(8deg); } }
+  .saba-fish.is-jump { animation: saba-sea-leap calc(0.9s / var(--saba-sea-speed)) cubic-bezier(0.3, 0.8, 0.4, 1) both; }
+  .saba-fish.is-puff { animation: saba-sea-puff 1.2s ease-out both; }
+  .saba-fish.is-pulse { animation: saba-sea-pulse 0.8s ease-out both; }
+  @keyframes saba-sea-leap { 0% { --y: 0px; --rot: 0deg; } 45% { --y: -52px; --rot: -22deg; } 70% { --y: -30px; --rot: 12deg; } 100% { --y: 0px; --rot: 0deg; } }
+  @keyframes saba-sea-puff { 20% { --puff: 1.5; } 70% { --puff: 1.45; } 100% { --puff: 1; } }
+  @keyframes saba-sea-pulse { 40% { --puff: 1.25; } }
+  .saba-tank__bubble { position: absolute; bottom: 0.4rem; width: 6px; height: 6px; border: 1px solid var(--saba-sea-muted); border-radius: 50%; opacity: 0; animation: saba-sea-rise 1.6s ease-out forwards; pointer-events: none; }
+  @keyframes saba-sea-rise { 0% { opacity: 0.8; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-3.2rem); } }
+  .saba-tank__drop { position: absolute; top: 0; width: 4px; height: 4px; border-radius: 50%; background: var(--saba-sea-wave); opacity: 0.7; animation: saba-sea-splash 0.7s ease-out forwards; pointer-events: none; }
+  @keyframes saba-sea-splash { 0% { transform: translate(0, 0); } 100% { transform: translate(var(--dx), -38px); opacity: 0; } }
+  .saba-tank__ink { position: absolute; width: 50px; height: 36px; border-radius: 50%; background: var(--saba-sea-ink); opacity: 0.55; filter: blur(3px); animation: saba-sea-ink 1.6s ease-out forwards; pointer-events: none; }
+  @keyframes saba-sea-ink { to { opacity: 0; transform: scale(1.8) translateX(20px); } }
+}
+
+/* 動きを止める設定では、背景・波・尾びれ・飛び出しを止め、向きの変更だけ残す */
+@media (prefers-reduced-motion: reduce) {
+  .saba-sea-bg::before, .saba-sea-bg::after, .saba-tank__surface, .saba-tank__weed, .saba-fish.is-jump, .saba-fish svg .tail { animation: none; }
+}
+
+@media print {
+  .saba-sea-bg, .saba-tank { display: none; }
+  body[data-sea] { padding-bottom: 0; }
+}
+
+/* registered property: 飛び出しと膨らみを CSS animation で補間するため */
+@property --y { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --rot { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+@property --puff { syntax: "<number>"; inherits: false; initial-value: 1; }

@@ -14,6 +14,9 @@ required_files=(
   docs.html
   app.html
   assets/saba.css
+  assets/saba-sea.css
+  assets/saba-sea.js
+  sea.html
   assets/theme.js
   LICENSE.txt
   .nojekyll

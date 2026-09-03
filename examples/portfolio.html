@@ -6,6 +6,7 @@
     <title>Portfolio sample</title>
     <script src="assets/theme.js"></script>
     <link rel="stylesheet" href="../src/saba.css">
+    <link rel="stylesheet" href="../src/saba-sea.css">
     <style>
       @layer site {
         .hero { padding: clamp(2rem, 6vw, 4.5rem) var(--saba-gutter) 2.5rem; border-bottom: 1px solid var(--saba-border); }
@@ -13,11 +14,12 @@
         .hero h1 { margin: 0.4rem 0 0; font: 700 clamp(1.9rem, 6vw, 3.2rem)/1.15 var(--saba-font-mono); letter-spacing: -0.03em; }
         .hero p { max-width: 44rem; margin: 1.2rem 0 0; color: var(--saba-text-muted); }
         .works { flex: 1; }
+        .saba-sheet { position: relative; z-index: 1; }
         .tags { display: flex; flex-wrap: wrap; gap: 0.2rem 0.6rem; }
       }
     </style>
   </head>
-  <body>
+  <body data-sea="tide" data-sea-style="pixel" data-fish="saba">
     <a class="saba-skip-link" href="#main">本文へ移動</a>
     <div class="saba-sheet">
       <header class="saba-site-header">
@@ -75,11 +77,12 @@
         <div class="saba-site-footer__inner"><span>sabas0ba.github.io</span><span><a href="https://github.com/sabas0ba/pages-style">source</a> / <a href="https://github.com/sabas0ba/pages-style/blob/main/LICENSE">license</a></span></div>
         <div class="saba-titleblock" aria-label="表題欄">
           <div>PROJECT</div><div>sabas0ba pages</div>
-          <div>SHEET</div><div>01 / 03</div>
+          <div>SHEET</div><div>01 / 04</div>
           <div>REV</div><div class="saba-titleblock__rev">C2</div>
           <div>LICENSE</div><div>Apache-2.0</div>
         </div>
       </footer>
     </div>
+    <script src="../src/saba-sea.js"></script>
   </body>
 </html>

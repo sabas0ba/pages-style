@@ -84,6 +84,7 @@ Public class は `saba-` prefix を必須とする。
 - `.saba-titleblock` (`__rev`): 表題欄
 - `.saba-site-footer`
 - `.saba-page`, `.saba-prose`, `.saba-grid`, `.saba-grid-background` (方眼)
+- `saba-sea.css` / `saba-sea.js` (optional): `.saba-sea-bg`, `.saba-tank`, `.saba-fish`。後述の「海 component」
 
 Site 固有 class は `@layer site` で定義し、共通 component より後に上書きする。inline style は使わない。
 
@@ -110,6 +111,35 @@ Site 固有 class は `@layer site` で定義し、共通 component より後に
 - panel は `.saba-panel`、panel 見出しは mono + 細罫
 - 最下部に mono の status strip (application 固有 CSS)
 - 共通 CSS に application 固有の sidebar 幅等を入れない
+
+## 海 component (saba-sea)
+
+`src/saba-sea.css` と `src/saba-sea.js` は saba.css とは独立した optional の component で、背景の模様と画面下の帯 (水槽) に魚を泳がせる。利用側は両 file を vendor し、`body` の data 属性で組み合わせを選ぶ。JavaScript が背景と帯の DOM を生成するため HTML に要素を置く必要はない。
+
+```html
+<link rel="stylesheet" href="assets/vendor/saba-sea.css">
+<body data-sea="tide" data-sea-style="pixel" data-fish="saba">
+  ...
+  <script src="assets/vendor/saba-sea.js" defer></script>
+</body>
+```
+
+| 属性 | 値 | 役割 |
+| --- | --- | --- |
+| `data-sea` | `tide` (潮: 鯖縞が流れる) / `deep` (深海: marine snow) / `tank` (水槽: ガラスの反射線、砂と水草) | 背景と帯の模様。無いと component は何もしない |
+| `data-sea-style` | `pixel` (既定) / `ascii` / `mono` / `modern` / `calm` / `pop` / `blueprint` | 魚の描画方式 (pixel sprite / 文字 / 線画 / 塗り)、帯と背景の色、動きの速さ |
+| `data-fish` | `none` / `saba` / `kingyo` / `medaka` / `fugu` / `kurage` / `tai` / `ika` | 魚の種類。`none` は帯を出さず背景だけ (魚なし版) |
+
+規約:
+
+- 画像を使わない。魚は grid 文字列、文字列、SVG path から描く
+- 色は `--saba-sea-*` token で持ち、雰囲気ごとに light / dark の値を定義する。ページ本体の書体や枠は saba.css の責務であり、component は変更しない
+- 帯の上で pointer が近づく、click / tap する、待機中の一定確率、のいずれでも反応する。反応は「飛び出し (しぶき) / dash と気泡 / 向きを変える」からランダムに選ぶ。フグは膨らむ、クラゲは拍動して浮く、イカは墨を吐いて逃げる
+- sprite は頭が左向きで、右へ進むときだけ反転する。イカは後ろ向きに泳ぐ
+- `prefers-reduced-motion: reduce` では背景・波・尾びれ・飛び出しを止め、向きの変更だけ残す。print では表示しない
+- `window.sabaSea.setup()` で属性の変更を反映できる
+
+sample は `examples/sea.html` (切替 UI 付き) と `examples/portfolio.html` (既定の組み合わせ)。
 
 ## Theme
 
