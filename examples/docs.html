@@ -8,64 +8,79 @@
     <link rel="stylesheet" href="../src/saba.css">
     <style>
       @layer site {
-        body { display: flex; flex-direction: column; }
-        .docs-shell { display: grid; grid-template-columns: 12rem minmax(0, 1fr); gap: 3rem; padding-block: 3rem; }
-        .side { color: var(--saba-text-muted); font: .82rem/1.8 var(--saba-font-mono); }
-        .side strong { display: block; margin-bottom: .6rem; color: var(--saba-text); }
-        .side a { display: block; color: inherit; }
-        .side a[aria-current="page"] { color: var(--saba-accent); }
-        .note { padding: .8rem 1rem; border: 1px solid var(--saba-border); border-left: 3px solid var(--saba-accent); border-radius: var(--saba-radius-md); background: var(--saba-surface); }
+        .docs-shell { display: grid; grid-template-columns: 13rem minmax(0, 1fr); flex: 1; }
+        .toc { padding: 2rem var(--saba-gutter); border-right: 1px solid var(--saba-border); font: 0.8rem/1.9 var(--saba-font-mono); color: var(--saba-text-muted); }
+        .toc strong { display: block; margin-bottom: 0.6rem; color: var(--saba-text); }
+        .toc a { display: block; color: inherit; }
+        .toc a span { display: inline-block; width: 1.6rem; }
+        .toc a[aria-current="page"] { color: var(--saba-text); }
+        .toc a[aria-current="page"] span { color: var(--saba-accent); }
+        .doc { padding: 2rem var(--saba-gutter) 3rem; }
+        .doc .no { font-family: var(--saba-font-mono); font-size: 0.75rem; color: var(--saba-text-muted); margin-bottom: 0.6rem; }
+        .note { padding: 0.8rem 1rem; border: 1px solid var(--saba-border); border-left: 3px solid var(--saba-accent); background: var(--saba-surface); }
+        .note strong { font-family: var(--saba-font-mono); font-size: 0.85rem; }
         @media (max-width: 48rem) {
-          .docs-shell { grid-template-columns: 1fr; gap: 1.5rem; }
-          .side { display: flex; flex-wrap: wrap; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--saba-border); }
-          .side strong { width: 100%; margin: 0; }
-          .side a { display: inline; }
+          .docs-shell { grid-template-columns: 1fr; }
+          .toc { display: flex; flex-wrap: wrap; gap: 0 1rem; padding-block: 1rem; border-right: 0; border-bottom: 1px solid var(--saba-border); }
+          .toc strong { width: 100%; margin: 0; }
+          .toc a span { width: auto; margin-right: 0.3rem; }
         }
       }
     </style>
   </head>
   <body>
     <a class="saba-skip-link" href="#main">本文へ移動</a>
-    <header class="saba-site-header">
-      <div class="saba-site-header__inner">
-        <a class="saba-brand" href="index.html"><span class="saba-brand__owner">sabas0ba / </span>dotfiles</a>
-        <nav class="saba-nav" aria-label="主要ナビゲーション"><a aria-current="page" href="#main">docs</a><a href="https://github.com/sabas0ba/pages-style">source</a></nav>
-        <div class="saba-theme-switcher" data-saba-theme-switcher hidden role="group" aria-label="表示テーマ">
-          <button type="button" data-theme-value="auto" aria-pressed="false">auto</button>
-          <button type="button" data-theme-value="light" aria-pressed="false">light</button>
-          <button type="button" data-theme-value="dark" aria-pressed="false">dark</button>
+    <div class="saba-sheet">
+      <header class="saba-site-header">
+        <div class="saba-site-header__inner">
+          <a class="saba-brand" href="index.html"><span class="saba-brand__owner">sabas0ba / </span>dotfiles</a>
+          <nav class="saba-nav" aria-label="主要ナビゲーション"><a aria-current="page" href="#main">docs</a><a href="https://github.com/sabas0ba/pages-style">source</a></nav>
+          <div class="saba-theme-switcher" data-saba-theme-switcher hidden role="group" aria-label="表示テーマ">
+            <button type="button" data-theme-value="auto" aria-pressed="false">auto</button>
+            <button type="button" data-theme-value="light" aria-pressed="false">light</button>
+            <button type="button" data-theme-value="dark" aria-pressed="false">dark</button>
+          </div>
         </div>
-      </div>
-    </header>
-    <main id="main" class="saba-page docs-shell">
-      <nav class="side" aria-label="Documentation">
-        <strong>Documentation</strong>
-        <a aria-current="page" href="#overview">Overview</a>
-        <a href="#setup">Setup</a>
-        <a href="#structure">Development</a>
-        <a href="#structure">Windows</a>
-        <a href="#structure">Reproducibility</a>
-      </nav>
-      <article id="overview" class="saba-prose">
-        <h1>再現可能な開発環境</h1>
-        <p>Nix を単一情報源として、開発 shell、container image、WSL 環境を同じ package set から構成します。</p>
-        <div class="note"><strong>設計原則</strong><br>依存関係は固定し、開発環境の外部へ暗黙の状態を持ち込みません。</div>
-        <h2 id="setup">セットアップ</h2>
-        <p>リポジトリを取得した後、開発 shell に入ります。</p>
-        <pre><code>$ nix develop
+      </header>
+      <main id="main" class="docs-shell">
+        <nav class="toc" aria-label="目次">
+          <strong>目次</strong>
+          <a aria-current="page" href="#overview"><span>0.</span>概要</a>
+          <a href="#setup"><span>1.</span>セットアップ</a>
+          <a href="#structure"><span>2.</span>構成</a>
+          <a href="#verify"><span>3.</span>検証</a>
+        </nav>
+        <article id="overview" class="doc">
+          <div class="saba-prose">
+            <div class="no">DOC 02 · 仕様書</div>
+            <h1>再現可能な開発環境</h1>
+            <p>Nix を単一情報源として、開発 shell、container image、WSL 環境を同じ package set から構成します。</p>
+            <div class="note"><strong>設計原則</strong><br>依存関係は固定し、開発環境の外部へ暗黙の状態を持ち込みません。</div>
+            <h2 id="setup">1. セットアップ</h2>
+            <p>リポジトリを取得した後、開発 shell に入ります。</p>
+            <pre><code>$ nix develop
 $ scripts/check-env.sh
 $ make check</code></pre>
-        <h2 id="structure">構成</h2>
-        <p><code>nix/packages.nix</code> を tool list の単一情報源として扱い、Dockerfile へ package 名を重複して記述しません。</p>
-        <table>
-          <thead><tr><th>経路</th><th>用途</th></tr></thead>
-          <tbody><tr><td><code>nix develop</code></td><td>対話的な開発</td></tr><tr><td><code>make check</code></td><td>ローカルと CI の共通検査</td></tr></tbody>
-        </table>
-        <blockquote>変更後は <code>make check</code> を通し、Nix または container 関連の変更時は container 側も検証します。</blockquote>
-      </article>
-    </main>
-    <footer class="saba-site-footer">
-      <div class="saba-site-footer__inner"><span>documentation sample</span><span><a href="https://github.com/sabas0ba/pages-style">repository</a></span></div>
-    </footer>
+            <h2 id="structure">2. 構成</h2>
+            <p><code>nix/packages.nix</code> を tool list の単一情報源として扱い、Dockerfile へ package 名を重複して記述しません。</p>
+            <table>
+              <thead><tr><th>経路</th><th>用途</th></tr></thead>
+              <tbody><tr><td><code>nix develop</code></td><td>対話的な開発</td></tr><tr><td><code>make check</code></td><td>ローカルと CI の共通検査</td></tr></tbody>
+            </table>
+            <h2 id="verify">3. 検証</h2>
+            <blockquote>変更後は <code>make check</code> を通し、Nix または container 関連の変更時は container 側も検証します。</blockquote>
+          </div>
+        </article>
+      </main>
+      <footer class="saba-site-footer">
+        <div class="saba-site-footer__inner"><span>documentation sample</span><span><a href="https://github.com/sabas0ba/pages-style">repository</a></span></div>
+        <div class="saba-titleblock" aria-label="表題欄">
+          <div>DOCUMENT</div><div>dotfiles / 開発環境</div>
+          <div>SHEET</div><div>02 / 04</div>
+          <div>REV</div><div class="saba-titleblock__rev">C2</div>
+          <div>LICENSE</div><div>Apache-2.0</div>
+        </div>
+      </footer>
+    </div>
   </body>
 </html>

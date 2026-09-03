@@ -6,75 +6,83 @@
     <title>Portfolio sample</title>
     <script src="assets/theme.js"></script>
     <link rel="stylesheet" href="../src/saba.css">
+    <link rel="stylesheet" href="../src/saba-sea.css">
     <style>
       @layer site {
-        body { display: flex; flex-direction: column; font-family: var(--saba-font-mono); }
-        .hero { padding: 4.5rem 0 2rem; }
-        .hero h1 { margin: 0; font: 650 clamp(2rem, 7vw, 3.6rem)/1 var(--saba-font-mono); letter-spacing: -.05em; }
-        .hero p { max-width: 46rem; margin: 1rem 0 0; color: var(--saba-text-muted); }
-        .eyebrow { margin-bottom: 1rem; color: var(--saba-accent); font: 700 .75rem/1 var(--saba-font-mono); letter-spacing: .14em; text-transform: uppercase; }
-        .work { padding-bottom: 4rem; }
-        .work h2 { margin: 0 0 1rem; font: 650 1rem/1.4 var(--saba-font-mono); }
-        .thumb { display: grid; place-items: center; aspect-ratio: 16 / 9; border-bottom: 1px solid var(--saba-border); background: linear-gradient(135deg, var(--saba-surface-raised), color-mix(in oklch, var(--saba-accent) 15%, var(--saba-surface))); color: var(--saba-text-muted); font: 650 1.7rem/1 var(--saba-font-mono); }
-        .tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .8rem; }
+        .hero { padding: clamp(2rem, 6vw, 4.5rem) var(--saba-gutter) 2.5rem; border-bottom: 1px solid var(--saba-border); }
+        .hero .no { font-family: var(--saba-font-mono); font-size: 0.75rem; color: var(--saba-text-muted); }
+        .hero h1 { margin: 0.4rem 0 0; font: 700 clamp(1.9rem, 6vw, 3.2rem)/1.15 var(--saba-font-mono); letter-spacing: -0.03em; }
+        .hero p { max-width: 44rem; margin: 1.2rem 0 0; color: var(--saba-text-muted); }
+        .works { flex: 1; }
+        .saba-sheet { position: relative; z-index: 1; }
+        .tags { display: flex; flex-wrap: wrap; gap: 0.2rem 0.6rem; }
       }
     </style>
   </head>
-  <body class="saba-grid-background">
+  <body data-sea="tide" data-sea-style="pixel" data-fish="saba">
     <a class="saba-skip-link" href="#main">本文へ移動</a>
-    <header class="saba-site-header">
-      <div class="saba-site-header__inner">
-        <a class="saba-brand" href="index.html"><span class="saba-brand__owner">sabas0ba / </span>works</a>
-        <nav class="saba-nav" aria-label="主要ナビゲーション">
-          <a aria-current="page" href="#work">works</a>
-          <a href="#about">about</a>
-          <a href="https://github.com/sabas0ba/pages-style">github</a>
-        </nav>
-        <div class="saba-theme-switcher" data-saba-theme-switcher hidden role="group" aria-label="表示テーマ">
-          <button type="button" data-theme-value="auto" aria-pressed="false">auto</button>
-          <button type="button" data-theme-value="light" aria-pressed="false">light</button>
-          <button type="button" data-theme-value="dark" aria-pressed="false">dark</button>
+    <div class="saba-sheet">
+      <header class="saba-site-header">
+        <div class="saba-site-header__inner">
+          <a class="saba-brand" href="index.html"><span class="saba-brand__owner">sabas0ba / </span>works</a>
+          <nav class="saba-nav" aria-label="主要ナビゲーション">
+            <a aria-current="page" href="#work">works</a>
+            <a href="#about">about</a>
+            <a href="https://github.com/sabas0ba/pages-style">github</a>
+          </nav>
+          <div class="saba-theme-switcher" data-saba-theme-switcher hidden role="group" aria-label="表示テーマ">
+            <button type="button" data-theme-value="auto" aria-pressed="false">auto</button>
+            <button type="button" data-theme-value="light" aria-pressed="false">light</button>
+            <button type="button" data-theme-value="dark" aria-pressed="false">dark</button>
+          </div>
         </div>
-      </div>
-    </header>
-    <main id="main" class="saba-page">
-      <section id="about" class="hero">
-        <div class="eyebrow">portfolio</div>
-        <h1>mochimochi engineer</h1>
-        <p>Software, hardware, build systems, FPGA, graphics and small experimental tools. Minimal presentation, reproducible engineering.</p>
-      </section>
-      <section id="work" class="work" aria-labelledby="work-title">
-        <h2 id="work-title">Selected work</h2>
-        <div class="saba-grid">
-          <article class="saba-card">
-            <div class="thumb">dowel</div>
-            <div class="saba-card__body">
-              <h3 class="saba-card__title">dowel</h3>
-              <p class="saba-card__desc">A build system for C and C++ with typed values and incremental evaluation.</p>
+      </header>
+      <main id="main" class="works">
+        <section id="about" class="hero">
+          <div class="no">SHEET 01 · PORTFOLIO</div>
+          <h1>mochimochi engineer</h1>
+          <p>Software, hardware, build systems, FPGA, graphics and small experimental tools. Minimal presentation, reproducible engineering.</p>
+        </section>
+        <section id="work" aria-label="Selected work">
+          <article class="saba-fig">
+            <div class="saba-fig__no">FIG. 01</div>
+            <div class="saba-fig__thumb saba-hatch"><span>dowel</span></div>
+            <div class="saba-fig__body">
+              <h2 class="saba-fig__title">dowel</h2>
+              <p class="saba-fig__desc">A build system for C and C++ with typed values and incremental evaluation.</p>
               <div class="tags"><span class="saba-chip">C++</span><span class="saba-chip">build</span></div>
             </div>
           </article>
-          <article class="saba-card">
-            <div class="thumb">stone</div>
-            <div class="saba-card__body">
-              <h3 class="saba-card__title">stone</h3>
-              <p class="saba-card__desc">Compiler bootstrap from hand-encoded RV32 binary to a self-hosted toolchain.</p>
+          <article class="saba-fig">
+            <div class="saba-fig__no">FIG. 02</div>
+            <div class="saba-fig__thumb saba-hatch"><span>stone</span></div>
+            <div class="saba-fig__body">
+              <h2 class="saba-fig__title">stone</h2>
+              <p class="saba-fig__desc">Compiler bootstrap from hand-encoded RV32 binary to a self-hosted toolchain.</p>
               <div class="tags"><span class="saba-chip">RV32I</span><span class="saba-chip">compiler</span></div>
             </div>
           </article>
-          <article class="saba-card">
-            <div class="thumb">veryl</div>
-            <div class="saba-card__body">
-              <h3 class="saba-card__title">hello_veryl</h3>
-              <p class="saba-card__desc">Open-source FPGA toolchain playground for Tang Nano 9K.</p>
+          <article class="saba-fig">
+            <div class="saba-fig__no">FIG. 03</div>
+            <div class="saba-fig__thumb saba-hatch"><span>veryl</span></div>
+            <div class="saba-fig__body">
+              <h2 class="saba-fig__title">hello_veryl</h2>
+              <p class="saba-fig__desc">Open-source FPGA toolchain playground for Tang Nano 9K.</p>
               <div class="tags"><span class="saba-chip">FPGA</span><span class="saba-chip">Veryl</span></div>
             </div>
           </article>
+        </section>
+      </main>
+      <footer class="saba-site-footer">
+        <div class="saba-site-footer__inner"><span>sabas0ba.github.io</span><span><a href="https://github.com/sabas0ba/pages-style">source</a> / <a href="https://github.com/sabas0ba/pages-style/blob/main/LICENSE">license</a></span></div>
+        <div class="saba-titleblock" aria-label="表題欄">
+          <div>PROJECT</div><div>sabas0ba pages</div>
+          <div>SHEET</div><div>01 / 04</div>
+          <div>REV</div><div class="saba-titleblock__rev">C2</div>
+          <div>LICENSE</div><div>Apache-2.0</div>
         </div>
-      </section>
-    </main>
-    <footer class="saba-site-footer">
-      <div class="saba-site-footer__inner"><span>sabas0ba.github.io</span><span><a href="https://github.com/sabas0ba/pages-style">source</a> / <a href="https://github.com/sabas0ba/pages-style/blob/main/LICENSE">license</a></span></div>
-    </footer>
+      </footer>
+    </div>
+    <script src="../src/saba-sea.js"></script>
   </body>
 </html>

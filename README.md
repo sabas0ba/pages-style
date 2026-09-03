@@ -1,18 +1,21 @@
 # pages-style
 
-`sabas0ba` 配下の GitHub Pages で再利用する CSS design system の checkpoint 1 です。実装、検証用 sample、test、設計資料を分離しています。
+`sabas0ba` 配下の GitHub Pages で再利用する CSS design system の checkpoint 2 です。ページを 1 枚の図面として組む意匠 (frame、罫線、採番、表題欄。dark は青焼き) を採り、実装、検証用 sample、test、設計資料を分離しています。
 
 ## Repository layout
 
 ```text
 src/                    配布対象の実装
   saba.css              `saba-` prefix の CSS API
+  saba-sea.css          optional: 海と魚 (saba-sea.js と組)
+  saba-sea.js           optional: 海と魚の動作
 examples/               design review 専用の静的 sample
   assets/theme.js       sample 用 theme override helper
   index.html            sample index
-  portfolio.html        Portfolio / Landing
-  docs.html             Documentation
-  app.html              Application / Tool
+  portfolio.html        Portfolio (図面)
+  docs.html             Documentation (仕様書)
+  app.html              Application (計器盤)
+  sea.html              Sea component (海 × 雰囲気 × 魚の切替)
 tests/                  自動検査
 scripts/                Pages artifact 生成
 .github/workflows/      CI と Pages deployment
@@ -29,7 +32,7 @@ LICENSE                 Apache License 2.0
 
 初回deployment前にrepositoryの **Settings → Pages → Source** を **GitHub Actions** に設定します。公開範囲はrepository visibilityとGitHub planのPages設定に従います。
 
-- Portfolio / Documentation / Application
+- Portfolio / Documentation / Application / Sea
 - auto / light / dark
 - desktop / mobile
 - keyboard focus / skip link
@@ -42,12 +45,18 @@ LICENSE                 Apache License 2.0
 ```html
 <link rel="stylesheet" href="assets/vendor/saba.css">
 
-<main class="saba-page">
-  <article class="saba-card">...</article>
-</main>
+<div class="saba-sheet">
+  <header class="saba-site-header">...</header>
+  <main>
+    <article class="saba-fig">...</article>
+  </main>
+  <footer class="saba-site-footer">...</footer>
+</div>
 ```
 
-tokens、components、page profilesは [docs/design.md](docs/design.md) を参照してください。
+海と魚を出す場合は `src/saba-sea.css` と `src/saba-sea.js` も vendor し、`<body data-sea="tide" data-sea-style="pixel" data-fish="saba">` のように指定します。魚なし版は `data-fish="none"` です。
+
+tokens、components、page profiles、海 component は [docs/design.md](docs/design.md) を参照してください。
 
 ## Development environment
 
@@ -82,4 +91,4 @@ Apache License 2.0です。詳細は [LICENSE](LICENSE) を参照してくださ
 
 ## Scope
 
-この checkpoint は design API と 3 use case の確認用です。既存の `sabas0ba/sabas0ba` profile page への適用と distribution 方針の固定は、checkpoint review 後に行います。設計規約は [docs/design.md](docs/design.md) を参照してください。
+この checkpoint は図面の意匠での design API と 3 use case の確認用です。既存の `sabas0ba/sabas0ba` profile page への適用と distribution 方針の固定は、checkpoint review 後に行います。設計規約は [docs/design.md](docs/design.md) を参照してください。

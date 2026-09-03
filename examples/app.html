@@ -8,34 +8,34 @@
     <link rel="stylesheet" href="../src/saba.css">
     <style>
       @layer site {
-        :root { --app-terminal-bg: #f6f8fa; --app-terminal-text: #24292f; }
-        :root[data-theme="dark"] { --app-terminal-bg: #080b0f; --app-terminal-text: #b8c3cf; }
-        @media (prefers-color-scheme: dark) {
-          :root:not([data-theme="light"]) { --app-terminal-bg: #080b0f; --app-terminal-text: #b8c3cf; }
-        }
         body { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         .app { display: grid; flex: 1; min-height: 0; grid-template-columns: 15rem minmax(0, 1fr); }
-        .sidebar { padding: 1rem; border-right: 1px solid var(--saba-border); background: var(--saba-surface); }
-        .side-title { margin: .3rem 0 1rem; color: var(--saba-text-muted); font: 700 .72rem/1 var(--saba-font-mono); letter-spacing: .12em; text-transform: uppercase; }
-        .side-item { display: block; padding: .5rem .6rem; border-radius: var(--saba-radius-sm); color: var(--saba-text-muted); font: .85rem/1.3 var(--saba-font-mono); }
+        .sidebar { padding: 1rem 0; border-right: 1px solid var(--saba-border-strong); }
+        .side-title { margin: 0.3rem var(--saba-gutter) 0.8rem; color: var(--saba-text-muted); font: 0.72rem/1 var(--saba-font-mono); }
+        .side-item { display: flex; gap: 0.6rem; padding: 0.45rem var(--saba-gutter); color: var(--saba-text-muted); font: 0.85rem/1.4 var(--saba-font-mono); }
+        .side-item span { width: 1.6rem; }
         .side-item:hover { color: var(--saba-text); text-decoration: none; }
-        .side-item[aria-current="page"] { background: var(--saba-accent-soft); color: var(--saba-text); }
-        .workspace { padding: 1.4rem; overflow: auto; }
-        .toolbar { display: flex; flex-wrap: wrap; gap: .7rem; align-items: end; margin-bottom: 1rem; }
-        .repo-field { display: grid; flex: 1 1 16rem; max-width: 24rem; gap: .25rem; color: var(--saba-text-muted); font: .75rem/1.3 var(--saba-font-mono); }
+        .side-item[aria-current="page"] { background: var(--saba-text); color: var(--saba-bg); }
+        .workspace { padding: 1.4rem var(--saba-gutter); overflow: auto; }
+        .toolbar { display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: end; margin-bottom: 1rem; }
+        .repo-field { display: grid; flex: 1 1 16rem; max-width: 24rem; gap: 0.25rem; color: var(--saba-text-muted); font: 0.75rem/1.3 var(--saba-font-mono); }
         .panel-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 1rem; }
         .panel { min-height: 18rem; padding: 1rem; }
-        .panel h2 { margin: 0 0 1rem; font: 650 .9rem/1.3 var(--saba-font-mono); }
-        .terminal { height: 13rem; margin: 0; overflow: auto; padding: 1rem; border: 1px solid var(--saba-border); border-radius: var(--saba-radius-md); background: var(--app-terminal-bg); color: var(--app-terminal-text); font: .8rem/1.7 var(--saba-font-mono); white-space: pre-wrap; }
-        .metric { margin: 1rem 0 .3rem; font: 650 2.2rem/1 var(--saba-font-mono); }
-        .muted { color: var(--saba-text-muted); font-size: .84rem; }
+        .panel h2 { margin: 0 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--saba-border); font: 700 0.85rem/1.3 var(--saba-font-mono); }
+        .terminal { height: 13rem; margin: 0; overflow: auto; padding: 1rem; border: 1px solid var(--saba-border); background: var(--saba-bg); font: 0.8rem/1.7 var(--saba-font-mono); white-space: pre-wrap; }
+        .metric { margin: 1rem 0 0.3rem; font: 700 2.2rem/1 var(--saba-font-mono); }
+        .metric .mark { display: inline-block; padding: 0 0.4rem; background: var(--saba-text); color: var(--saba-bg); }
+        .muted { color: var(--saba-text-muted); font-size: 0.84rem; }
         .divider { margin: 1.5rem 0; border: 0; border-top: 1px solid var(--saba-border); }
+        .status-strip { display: flex; flex-wrap: wrap; gap: 0.2rem 2rem; padding: 0.4rem var(--saba-gutter); border-top: 1px solid var(--saba-border-strong); color: var(--saba-text-muted); font: 0.72rem/1.6 var(--saba-font-mono); }
+        .status-strip .right { margin-left: auto; }
         @media (max-width: 52rem) {
           body { height: auto; overflow: auto; }
           .app { grid-template-columns: 1fr; }
-          .sidebar { display: flex; gap: .4rem; overflow: auto; border-right: 0; border-bottom: 1px solid var(--saba-border); }
+          .sidebar { display: flex; gap: 0; overflow: auto; padding: 0; border-right: 0; border-bottom: 1px solid var(--saba-border-strong); }
           .side-title { display: none; }
           .side-item { white-space: nowrap; }
+          .side-item span { display: none; }
           .panel-grid { grid-template-columns: 1fr; }
         }
       }
@@ -56,21 +56,21 @@
     </header>
     <main id="main" class="app">
       <nav class="sidebar" aria-label="Workspace">
-        <div class="side-title">workspace</div>
-        <a class="side-item" aria-current="page" href="#overview">Overview</a>
-        <a class="side-item" href="#build">Build</a>
-        <a class="side-item" href="#artifacts">Artifacts</a>
-        <a class="side-item" href="#overview">Settings</a>
+        <div class="side-title">WORKSPACE</div>
+        <a class="side-item" aria-current="page" href="#overview"><span>01</span>Overview</a>
+        <a class="side-item" href="#build"><span>02</span>Build</a>
+        <a class="side-item" href="#artifacts"><span>03</span>Artifacts</a>
+        <a class="side-item" href="#overview"><span>04</span>Settings</a>
       </nav>
       <section id="overview" class="workspace" aria-label="Overview">
         <div class="toolbar">
-          <label class="repo-field">Repository<input class="saba-input" value="sabas0ba/project"></label>
+          <label class="repo-field">REPOSITORY<input class="saba-input" value="sabas0ba/project"></label>
           <button class="saba-button saba-button--primary" type="button">Run</button>
           <button class="saba-button" type="button">Reset</button>
         </div>
         <div class="panel-grid">
           <section id="build" class="saba-panel panel">
-            <h2>Build output</h2>
+            <h2>BUILD OUTPUT</h2>
             <pre class="terminal" aria-label="Build output"><code>$ make check
 lint ............. ok
 test ............. ok
@@ -79,8 +79,8 @@ reproducibility .. ok
 3 checks passed</code></pre>
           </section>
           <section id="artifacts" class="saba-panel panel">
-            <h2>Status</h2>
-            <div class="metric"><span aria-hidden="true">✓</span> PASS</div>
+            <h2>STATUS</h2>
+            <div class="metric"><span class="mark" aria-hidden="true">✓</span> PASS</div>
             <p class="muted">All required checks completed successfully.</p>
             <hr class="divider">
             <span class="saba-chip">main</span> <span class="saba-chip">clean</span>
@@ -88,5 +88,10 @@ reproducibility .. ok
         </div>
       </section>
     </main>
+    <footer class="status-strip" aria-label="状態">
+      <span>sabas0ba/project</span>
+      <span>main · clean</span>
+      <span class="right">REV <strong>C2</strong> · Apache-2.0</span>
+    </footer>
   </body>
 </html>
